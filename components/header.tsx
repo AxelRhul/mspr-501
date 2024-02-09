@@ -40,16 +40,6 @@ const Header = async () => {
                     )}
                     {user && (
                         <form action={logoutAction} className='flex'>
-                            <li>
-                                <Link href='/client-side' className='text-black'>
-                                    Client
-                                </Link>
-                            </li>
-                            <li className='ml-4'>
-                                <Link href='/profile' className='text-black'>
-                                    Profile
-                                </Link>
-                            </li>
                             <li className='ml-4'>
                                 <button>Logout</button>
                             </li>
