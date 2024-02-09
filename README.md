@@ -34,3 +34,55 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+## Prisma Setup
+
+### Create the .env
+
+Create a secret with the following command:
+
+```bash
+openssl rand -base64 32
+```
+
+Create a `.env` file in the root of the project with the following content:
+
+```env
+DATABASE_URL="file:./dev.sqlite"
+AUTH_SECRET="your-auth-secret"
+```
+
+This project uses Prisma to connect to a database. You can use the following commands to setup the database:
+
+
+```bash
+npx prisma migrate dev
+# or
+yarn prisma migrate dev
+# or
+pnpm prisma migrate dev
+# or    
+bun prisma migrate dev
+```
+
+## Use authentiication session in app
+
+This project uses [next-auth](https://next-auth.js.org/) to handle authentication. You can use the following commands to setup the authentication:
+
+```typescript jsx
+...
+import { auth, signOut } from '@/auth';
+//recuperation de l'utilisateur
+const session = await auth();
+<div>
+    {session ? `Bonjour ${session.user.name}` : 'Not logged in'}
+</div>
+
+//deconnection
+<form action={logoutAction} className='flex'>
+    <button type='submit' className='btn btn-primary'>
+        Logout
+    </button>
+</form>
+...
+```
