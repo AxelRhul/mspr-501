@@ -17,7 +17,7 @@ export const LoginForm = () => {
     const [submitting, setSubmitting] = useState(false);
 
     const searchParams = useSearchParams();
-    const callbackUrl = searchParams.get('callbackUrl') || '/profile';
+    const callbackUrl = searchParams.get('callbackUrl') || '/';
 
     const methods = useForm<LoginUserInput>({
         resolver: zodResolver(loginUserSchema),

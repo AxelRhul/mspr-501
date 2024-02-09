@@ -14,25 +14,25 @@ const Header = async () => {
         <header className='bg-white h-20'>
             <nav className='h-full flex justify-between container items-center'>
                 <div>
-                    <Link href='/' className='text-ct-dark-600 text-2xl font-semibold'>
-                        CodevoWeb
+                    <Link href='/' className='text-black text-2xl font-semibold'>
+                        Arosaje
                     </Link>
                 </div>
                 <ul className='flex items-center space-x-4'>
                     <li>
-                        <Link href='/' className='text-ct-dark-600'>
+                        <Link href='/' className='text-black'>
                             Home
                         </Link>
                     </li>
                     {!user && (
                         <>
                             <li>
-                                <Link href='/register' className='text-ct-dark-600'>
+                                <Link href='/register' className='text-black'>
                                     Register
                                 </Link>
                             </li>
                             <li>
-                                <Link href='/login' className='text-ct-dark-600'>
+                                <Link href='/login' className='text-black'>
                                     Login
                                 </Link>
                             </li>
@@ -41,12 +41,12 @@ const Header = async () => {
                     {user && (
                         <form action={logoutAction} className='flex'>
                             <li>
-                                <Link href='/client-side' className='text-ct-dark-600'>
+                                <Link href='/client-side' className='text-black'>
                                     Client
                                 </Link>
                             </li>
                             <li className='ml-4'>
-                                <Link href='/profile' className='text-ct-dark-600'>
+                                <Link href='/profile' className='text-black'>
                                     Profile
                                 </Link>
                             </li>
