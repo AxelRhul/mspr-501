@@ -28,8 +28,11 @@ export async function POST(req: Request) {
     });
 
     for (const file of files) {
-
-        const filePath = path.join(process.cwd(), 'public', 'uploads', file.name);
+        let filename = file.name;
+        if(filename === undefined || filename === null || filename === "") {
+            filename = "default.jpg";
+        }
+        const filePath = path.join(process.cwd(), 'public', 'uploads', filename);
         const arrayBuffer = await file.arrayBuffer();
         const fileBuffer = Buffer.from(arrayBuffer);
 
@@ -41,9 +44,10 @@ export async function POST(req: Request) {
 
                 }
             })
+
         const image = await prisma.image.create({
             data: {
-                url: `/uploads/${file.name}`,
+                url: `/uploads/${filename}`,
                 plant: {
                     connect: {
                         id: newPlant.id,
