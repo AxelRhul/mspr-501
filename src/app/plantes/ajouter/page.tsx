@@ -17,11 +17,15 @@ export default function Page() {
         event.preventDefault()
         const formData = new FormData(event.currentTarget)
 
-        const response = await fetch(photo);
-        const blob = await response.blob();
-        const file = new File([blob], "photo.png", { type: "image/png" });
+        if(photo !== "") {
+            const response = await fetch(photo);
+            const blob = await response.blob();
+            const file = new File([blob], "photo.png", { type: "image/png" });
 
-        formData.append('images', file);
+            formData.append('images', file);
+        }
+
+        console.log(formData.getAll('images'))
 
         const fetchResponse = await fetch('/api/plants',
             {

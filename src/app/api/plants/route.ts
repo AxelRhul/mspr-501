@@ -28,34 +28,36 @@ export async function POST(req: Request) {
     });
 
     for (const file of files) {
-        let filename = file.name;
-        if(filename === undefined || filename === null || filename === "") {
-            filename = "default.jpg";
-        }
-        const filePath = path.join(process.cwd(), 'public', 'uploads', filename);
-        const arrayBuffer = await file.arrayBuffer();
-        const fileBuffer = Buffer.from(arrayBuffer);
+        if(file.type !== "application/octet-stream") {
+            let filename = file.name;
+            if(filename === undefined || filename === null || filename === "") {
+                filename = "default.jpg";
+            }
+            const filePath = path.join(process.cwd(), 'public', 'uploads', filename);
+            const arrayBuffer = await file.arrayBuffer();
+            const fileBuffer = Buffer.from(arrayBuffer);
 
-        fs.writeFile(filePath, fileBuffer, (err) => {
-            if (err) {
-                console.error('File writing error:', err);
-            } else {
-                console.log('File written successfully');
+            fs.writeFile(filePath, fileBuffer, (err) => {
+                if (err) {
+                    console.error('File writing error:', err);
+                } else {
+                    console.log('File written successfully');
 
                 }
             })
 
-        const image = await prisma.image.create({
-            data: {
-                url: `/uploads/${filename}`,
-                plant: {
-                    connect: {
-                        id: newPlant.id,
+            const image = await prisma.image.create({
+                data: {
+                    url: `/uploads/${filename}`,
+                    plant: {
+                        connect: {
+                            id: newPlant.id,
+                        },
                     },
                 },
-            },
-        });
-        images.push(image);
+            });
+            images.push(image);
+        }
         }
 
     await prisma.plant.update({

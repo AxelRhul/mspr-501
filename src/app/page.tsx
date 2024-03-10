@@ -16,6 +16,7 @@ export default function Home() {
             {plants.map((plant) => (
                 <div key={plant.id}>
                     <h2>{plant.name}</h2>
+                    <p>Plante de {plant.userName}</p>
                     {plant.images.map((image) => (
                         <img key={image.id} src={image.url} alt={plant.name} />
                     ))}
