@@ -9,6 +9,7 @@ export async function GET(request: Request,{ params }: { params: { id: string } 
         },
         include: {
             images: true,
+            comments: true
         },
     });
     return NextResponse.json(plant);

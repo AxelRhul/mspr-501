@@ -39,8 +39,8 @@ export default function Page() {
     return (
         <>
         <form onSubmit={onSubmit} encType="multipart/form-data">
-            <input type="text" name="name" required />
-            <input type={"text"} name={"plant-name"} required/>
+            <input type="text" name="name" placeholder="Votre nom" required={true}/>
+            <input type="text" name="plant-name" placeholder="Nom de la plante" required={true}/>
             <input type="file" name="images" multiple />
             <Webcam
                 audio={false}

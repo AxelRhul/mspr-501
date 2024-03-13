@@ -67,10 +67,11 @@ model VerificationRequest {
 }
 
 model Plant {
-  id          String   @id @default(cuid())
-  name        String
-  userName    String
-  images      Image[]
+  id       String    @id @default(cuid())
+  name     String
+  userName String
+  images   Image[]
+  comments Comment[]
 }
 
 model Image {
@@ -78,4 +79,13 @@ model Image {
   url     String
   plantId String
   plant   Plant  @relation(fields: [plantId], references: [id])
+}
+
+model Comment {
+  id        String   @id @default(cuid())
+  name      String
+  content   String
+  plantId   String   @map("plant_id")
+  plant     Plant    @relation(fields: [plantId], references: [id])
+  createdAt DateTime @default(now())
 }
