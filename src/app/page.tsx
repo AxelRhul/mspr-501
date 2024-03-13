@@ -14,13 +14,13 @@ export default function Home() {
     return (
         <div>
             {plants.map((plant) => (
-                <div key={plant.id}>
+                <a key={plant.id} href={`/plantes/${plant.id}`}>
                     <h2>{plant.name}</h2>
                     <p>Plante de {plant.userName}</p>
                     {plant.images.map((image) => (
                         <img key={image.id} src={image.url} alt={plant.name} />
                     ))}
-                </div>
+                </a>
             ))}
             <a href={"/plantes/ajouter"}>Ajouter une plante</a>
         </div>

@@ -1,6 +1,7 @@
 import {NextResponse} from "next/server";
 import fs from 'fs';
 import path from 'path';
+import { v4 as uuidv4 } from 'uuid';
 
 import prisma from '@/prisma/prisma';
 
@@ -33,7 +34,18 @@ export async function POST(req: Request) {
             if(filename === undefined || filename === null || filename === "") {
                 filename = "default.jpg";
             }
-            const filePath = path.join(process.cwd(), 'public', 'uploads', filename);
+            filename = uuidv4() + path.extname(filename);
+            const dirPath = path.join(process.cwd(), 'public', 'uploads', newPlant.id);
+
+            fs.mkdir(dirPath, { recursive: true }, (error) => {
+                if (error) {
+                    console.error('An error occurred:', error);
+                } else {
+                    console.log('Directory created successfully');
+                }
+            });
+
+            const filePath = path.join(process.cwd(), 'public', 'uploads',newPlant.id, filename);
             const arrayBuffer = await file.arrayBuffer();
             const fileBuffer = Buffer.from(arrayBuffer);
 
@@ -48,7 +60,7 @@ export async function POST(req: Request) {
 
             const image = await prisma.image.create({
                 data: {
-                    url: `/uploads/${filename}`,
+                    url: `/uploads/${newPlant.id}/${filename}`,
                     plant: {
                         connect: {
                             id: newPlant.id,

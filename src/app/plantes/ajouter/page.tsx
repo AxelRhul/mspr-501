@@ -32,13 +32,15 @@ export default function Page() {
                 method: 'POST',
                 body:  formData,
             })
+
+        window.location.reload();
     }
 
     return (
         <>
         <form onSubmit={onSubmit} encType="multipart/form-data">
-            <input type="text" name="name" />
-            <input type={"text"} name={"plant-name"}/>
+            <input type="text" name="name" required />
+            <input type={"text"} name={"plant-name"} required/>
             <input type="file" name="images" multiple />
             <Webcam
                 audio={false}
