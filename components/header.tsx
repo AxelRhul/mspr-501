@@ -1,17 +1,13 @@
-import { auth, signOut } from '@/auth';
+import { auth } from '@/auth';
 import Link from 'next/link';
+import { logoutAction } from '@/src/actions/logoutAction';
 
 const Header = async () => {
     const session = await auth();
     const user = session?.user;
 
-    const logoutAction = async () => {
-        'use server';
-        await signOut();
-    };
-
     return (
-        <header className='bg-white h-20'>
+        <header className='bg-red h-20'>
             <nav className='h-full flex justify-between container items-center'>
                 <div>
                     <Link href='/' className='text-black text-2xl font-semibold'>

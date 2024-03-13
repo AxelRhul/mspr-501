@@ -65,3 +65,27 @@ model VerificationRequest {
 
   @@unique([identifier, token])
 }
+
+model Plant {
+  id       String    @id @default(cuid())
+  name     String
+  userName String
+  images   Image[]
+  comments Comment[]
+}
+
+model Image {
+  id      String @id @default(cuid())
+  url     String
+  plantId String
+  plant   Plant  @relation(fields: [plantId], references: [id])
+}
+
+model Comment {
+  id        String   @id @default(cuid())
+  name      String
+  content   String
+  plantId   String   @map("plant_id")
+  plant     Plant    @relation(fields: [plantId], references: [id])
+  createdAt DateTime @default(now())
+}
