@@ -37,13 +37,7 @@ export async function POST(req: Request) {
             filename = uuidv4() + path.extname(filename);
             const dirPath = path.join(process.cwd(), 'public', 'uploads', newPlant.id);
 
-            fs.mkdir(dirPath, { recursive: true }, (error) => {
-                if (error) {
-                    console.error('An error occurred:', error);
-                } else {
-                    console.log('Directory created successfully');
-                }
-            });
+            fs.mkdir(dirPath, { recursive: true }, (error) => {});
 
             const filePath = path.join(process.cwd(), 'public', 'uploads',newPlant.id, filename);
             const arrayBuffer = await file.arrayBuffer();

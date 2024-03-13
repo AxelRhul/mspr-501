@@ -1,5 +1,5 @@
 "use client"
-import Image from "next/image";
+
 import { useEffect, useState } from "react";
 import Header from "@/components/header";
 
@@ -14,7 +14,7 @@ export default function Home() {
 
     return (
         <>
-            <Header></Header>
+            <Header/>
             <div>
                 {plants.map((plant) => (
                     <a key={plant.id} href={`/plantes/${plant.id}`}>
