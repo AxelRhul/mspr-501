@@ -21,7 +21,7 @@ export default function Home({session}) {
                 {plants.map((plant) => (
                     <a key={plant.id} href={`/plantes/${plant.id}`}>
                         <h2>{plant.name}</h2>
-                        <p>Plante de {plant.userName}</p>
+                        <p>Plante de {plant.user.name}</p>
                         {plant.images.map((image) => (
                             <img key={image.id} src={image.url} alt={plant.name} />
                         ))}

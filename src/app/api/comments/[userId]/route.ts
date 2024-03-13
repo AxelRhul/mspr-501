@@ -2,14 +2,13 @@ import prisma from "@/prisma/prisma";
 import {NextResponse} from "next/server";
 import type { NextApiRequest, NextApiResponse } from 'next'
 
-export async function GET(request: Request,{ params }: { params: { id: string } }) {
-    const plant = await prisma.plant.findUnique({
+export async function GET(request: Request,{ params }: { params: { userId: string } }) {
+    const plant = await prisma.comment.findMany({
         where: {
-            id: params.id,
+            userId: params.userId,
         },
         include: {
-            images: true,
-            comments: true,
+            plant: true,
             user: true,
         },
     });

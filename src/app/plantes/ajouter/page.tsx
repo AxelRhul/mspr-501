@@ -1,12 +1,33 @@
 "use client"
 
-import { FormEvent, useRef } from 'react'
+import {FormEvent, useEffect, useRef} from 'react'
 import React, { useState } from "react";
 import Webcam from "react-webcam";
-
+import LoginBtn from "@/src/components/login-btn";
+import {getSession} from "next-auth/react";
 export default function Page() {
+    const [isLoading, setIsLoading] = useState(true);
     const webcamRef = useRef(null);
     const [photo, setPhoto] = useState("");
+    async function isSession() {
+        const session = await getSession();
+        if (!session) {
+            window.location.href = "/api/auth/signin";
+        }
+        console.log(session.user.email);
+        setIsLoading(false);
+        sessionStorage.setItem('user-email', session.user.email);
+    }
+
+    useEffect(() => {
+        isSession();
+    }, []);
+
+    // Rest of your component
+
+    if (isLoading) {
+        return <div>Loading...</div>;
+    }
 
     const capture = () => {
         const imageSrc = webcamRef.current.getScreenshot();
@@ -17,20 +38,20 @@ export default function Page() {
         event.preventDefault()
         const formData = new FormData(event.currentTarget)
 
-        if(photo !== "") {
+        if (photo !== "") {
             const response = await fetch(photo);
             const blob = await response.blob();
-            const file = new File([blob], "photo.png", { type: "image/png" });
+            const file = new File([blob], "photo.png", {type: "image/png"});
 
             formData.append('images', file);
         }
 
-        console.log(formData.getAll('images'))
+        formData.append('user-email', sessionStorage.getItem('user-email'));
 
         const fetchResponse = await fetch('/api/plants',
             {
                 method: 'POST',
-                body:  formData,
+                body: formData,
             })
 
         window.location.reload();
@@ -38,19 +59,18 @@ export default function Page() {
 
     return (
         <>
-        <form onSubmit={onSubmit} encType="multipart/form-data">
-            <input type="text" name="name" placeholder="Votre nom" required={true}/>
-            <input type="text" name="plant-name" placeholder="Nom de la plante" required={true}/>
-            <input type="file" name="images" multiple />
-            <Webcam
-                audio={false}
-                ref={webcamRef}
-                screenshotFormat="image/png"
-            />
-            <button type="submit">Submit</button>
-        </form>
-    <button onClick={capture}>Capture photo</button>
-    {photo && <img src={photo} alt="The taken photo" />}
+            <form onSubmit={onSubmit} encType="multipart/form-data">
+                <input type="text" name="plant-name" placeholder="Nom de la plante" required={true}/>
+                <input type="file" name="images" multiple/>
+                <Webcam
+                    audio={false}
+                    ref={webcamRef}
+                    screenshotFormat="image/png"
+                />
+                <button type="submit">Submit</button>
+            </form>
+            <button onClick={capture}>Capture photo</button>
+            {photo && <img src={photo} alt="The taken photo"/>}
         </>
     )
 }
