@@ -1,6 +1,7 @@
-import prisma from "@/prisma/prisma";
 import {NextResponse} from "next/server";
+import { PrismaClient } from '@prisma/client';
 
+export const prisma = new PrismaClient();
 
 export async function POST(req: Request) {
     const formData = await req.formData()
@@ -13,13 +14,13 @@ export async function POST(req: Request) {
 
     const plant = await prisma.plant.findUnique({
         where: {
-            id: formData.get('plantId'),
+            id: formData.get('plant-id'),
         },
     });
 
     const newComment = await prisma.comment.create({
         data: {
-            content: formData.get("comment"),
+            content: formData.get("content"),
             createdAt: new Date(),
             plant: {
                 connect: {

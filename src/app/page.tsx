@@ -1,7 +1,7 @@
 "use client"
 import {SessionProvider} from "next-auth/react";
-import LoginBtn from "@/src/components/login-btn";
 import { useEffect, useState } from "react";
+import LoginBtn from "@/app/components/login-btn";
 
 export default function Home({session}) {
     const [plants, setPlants] = useState([]);
