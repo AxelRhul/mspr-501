@@ -1,9 +1,9 @@
 "use client"
-
+import {SessionProvider} from "next-auth/react";
+import LoginBtn from "@/src/components/login-btn";
 import { useEffect, useState } from "react";
-import Header from "@/components/header";
 
-export default function Home() {
+export default function Home({session}) {
     const [plants, setPlants] = useState([]);
 
     useEffect(() => {
@@ -14,7 +14,9 @@ export default function Home() {
 
     return (
         <>
-            <Header/>
+            <SessionProvider session={session}>
+                <LoginBtn />
+            </SessionProvider>
             <div>
                 {plants.map((plant) => (
                     <a key={plant.id} href={`/plantes/${plant.id}`}>
