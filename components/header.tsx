@@ -1,14 +1,10 @@
 import { auth, signOut } from '@/auth';
 import Link from 'next/link';
+import { logoutAction } from '@/src/actions/logoutAction';
 
 const Header = async () => {
     const session = await auth();
     const user = session?.user;
-
-    const logoutAction = async () => {
-        'use server';
-        await signOut();
-    };
 
     return (
         <header className='bg-red h-20'>

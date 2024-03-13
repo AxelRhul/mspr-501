@@ -45,7 +45,7 @@ export const LoginForm = () => {
 
             if (!res?.error) {
                 toast.success('successfully logged in');
-                router.push(callbackUrl);
+                window.location.href = '/';
             } else {
                 reset({ password: '' });
                 const message = 'invalid email or password';
