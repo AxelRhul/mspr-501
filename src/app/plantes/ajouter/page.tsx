@@ -3,7 +3,6 @@
 import {FormEvent, useEffect, useRef} from 'react'
 import React, { useState } from "react";
 import Webcam from "react-webcam";
-import LoginBtn from "@/src/layout/components/login-btn";
 import {getSession} from "next-auth/react";
 export default function Page() {
     const [isLoading, setIsLoading] = useState(true);

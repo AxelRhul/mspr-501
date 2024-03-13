@@ -5,10 +5,10 @@ import {SessionProvider} from "next-auth/react";
 import Form from "@/app/components/form";
 
 export default async function ShowPlants({params}: { params: { id: string } },) {
-    const plant = await fetch(`http://localhost:3000/api/plants/${params.id}`)
+    const plant = await fetch(`${process.env.BASE_URL}/api/plants/${params.id}`)
         .then(response => response.json())
 
-    const comments = await fetch(`http://localhost:3000/api/comments/${params.id}`)
+    const comments = await fetch(`${process.env.BASE_URL}/api/comments/${params.id}`)
         .then(response => response.json())
 
     console.log(comments)
