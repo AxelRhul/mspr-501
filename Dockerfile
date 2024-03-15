@@ -8,8 +8,6 @@ WORKDIR /app
 
 COPY .env .env
 
-COPY prisma ./prisma
-
 # Install dependencies based on the preferred package manager
 COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
 RUN \
@@ -19,13 +17,15 @@ RUN \
   else echo "Lockfile not found." && exit 1; \
   fi
 
-RUN npx prisma migrate deploy
+RUN npx prisma generate dev
 
 # Rebuild the source code only when needed
 FROM base AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
+
+RUN npx prisma generate
 
 # Next.js collects completely anonymous telemetry data about general usage.
 # Learn more here: https://nextjs.org/telemetry
@@ -60,6 +60,10 @@ RUN chown nextjs:nodejs .next
 # https://nextjs.org/docs/advanced-features/output-file-tracing
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+
+COPY prisma ./prisma
+
+RUN npx prisma migrate dev
 
 USER nextjs
 
