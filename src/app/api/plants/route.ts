@@ -23,12 +23,15 @@ export async function POST(req: Request) {
 
     const newPlant = await prisma.plant.create({
         data: {
-            name: formData.get('plant-name'),
-            userName: formData.get('name'),
+            name: String(formData.get('plant-name')),
+            userName: String(formData.get('name')),
         },
     });
 
     for (const file of files) {
+        if (!(file instanceof File)) {
+            continue;
+        }
         if(file.type !== "application/octet-stream") {
             let filename = file.name;
             if(filename === undefined || filename === null || filename === "") {

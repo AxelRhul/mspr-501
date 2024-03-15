@@ -1,9 +1,30 @@
 "use client"
 
+interface Image {
+    id: string;
+    url: string;
+}
+
+interface Plant {
+    id: string;
+    name: string;
+    userName: string;
+    images: Image[];
+    comments: Comment[];
+}
+
+interface Comment {
+    id: string;
+    name: string;
+    content: string;
+    createdAt: string;
+}
+
 import { FormEvent, useEffect, useState } from "react";
+import Header from "@/components/header";
 
 export default function ShowPlants({ params }: { params: { id: string } }) {
-    const [plant, setPlant] = useState(null);
+    const [plant, setPlant] = useState<Plant | null>(null);
 
     useEffect(() => {
         fetch(`/api/plants/${params.id}`)
@@ -31,6 +52,7 @@ export default function ShowPlants({ params }: { params: { id: string } }) {
 
     return (
         <>
+            <Header />
             <div className="bg-[#80CC28] w-full h-screen">
                 {plant.images.map((image) => (
                     <img className="absolute w-72 left-44 top-[4.5rem] rounded-2xl z-10" key={image.id} src={image.url} alt={plant.name} />
@@ -41,7 +63,7 @@ export default function ShowPlants({ params }: { params: { id: string } }) {
                             <p className="flex items-center justify-center text-[#676A65] underline underline-offset-4 decoration-[#80CC28] ">Dernière photo prise le :</p>
                             <p className="flex items-center justify-center text-[#676A65]">XX/XX/XX</p>
                         </div>
-                        <a href="" className="flex items-center justify-center text-[#5C8F37] font-semibold text-lg">Voir l'historique</a>
+                        <a href="" className="flex items-center justify-center text-[#5C8F37] font-semibold text-lg">Voir l&apos;historique</a>
                         <div className="flex flex-col items-center justify-center space-y-2">
                             <h2 className="flex items-center justify-center text-[#212729] text-5xl font-bold">{plant.name}</h2>
                             <div className="flex flex-row items-center space-x-44">

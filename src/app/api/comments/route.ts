@@ -8,9 +8,9 @@ export async function POST(req: Request) {
 
     const newComment = await prisma.comment.create({
         data: {
-            name: formData.get("name"),
-            content: formData.get("comment"),
-            plantId: formData.get("plantId"),
+            name: String(formData.get("name")),
+            content: String(formData.get("comment")),
+            plantId: String(formData.get("plantId")),
             createdAt: new Date()
         }
     })

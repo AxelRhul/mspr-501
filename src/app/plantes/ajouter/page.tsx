@@ -6,12 +6,16 @@ import React, { useState } from "react";
 import Webcam from "react-webcam";
 
 export default function Page() {
-    const webcamRef = useRef(null);
+    const webcamRef = useRef<Webcam | null>(null);
     const [photo, setPhoto] = useState("");
 
     const capture = () => {
-        const imageSrc = webcamRef.current.getScreenshot();
-        setPhoto(imageSrc);
+        if (webcamRef.current) {
+            const imageSrc = webcamRef.current.getScreenshot();
+            if (imageSrc !== null) {
+                setPhoto(imageSrc);
+            }
+        }
     };
 
     async function onSubmit(event: FormEvent<HTMLFormElement>) {

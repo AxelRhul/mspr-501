@@ -3,6 +3,13 @@
 import { useEffect, useState } from "react";
 import Header from "@/components/header";
 
+interface Plant {
+    id: string;
+    name: string;
+    userName: string;
+    images: { id: string; url: string; }[];
+}
+
 export default function Home() {
     const [plants, setPlants] = useState([]);
 
@@ -22,8 +29,8 @@ export default function Home() {
                     <a className="border-2 border-[#80CC28] py-0.5 px-1 rounded-lg" href={"/plantes/ajouter"}>Ajouter une plante</a>
                 </div>
                 <div className="grid grid-cols-3 gap-y-4 md:gap-y-6">
-                    {plants.map((plant) => (
-                        <div className="flex flex-col items-center justify-center space-y-2">
+                    {plants.map((plant : Plant) => (
+                        <div key={plant.id} className="flex flex-col items-center justify-center space-y-2">
                             <div className="flex flex-row items-center space-x-8 md:space-x-10">
                                 <h2 className="text-sm underline underline-offset-2 decoration-[#80CC28]">{plant.name}</h2>
                                 <p className="text-sm">{plant.userName}</p>
