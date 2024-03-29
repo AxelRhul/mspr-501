@@ -15,7 +15,6 @@ export default function Home() {
     console.log(plants);
     return (
         <>
-            <Header />
             <div className="mx-6">
                 <div className="flex flex-row items-center justify-end mb-4 space-x-16 md:space-x-32">
                     <h1 className="text-lg text-[#80CC28] font-bold flex items-center justify-center">Nouvelles Plantes</h1>
