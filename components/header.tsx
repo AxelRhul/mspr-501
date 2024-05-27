@@ -36,7 +36,7 @@ function Header() {
 
     return (
         <>
-            <div className='mb-4'>
+            <div className=' sticky top-0'>
                 <header className='h-12 md:h-14 bg-[#ffffff] rounded-b-3xl flex justify-center lg:hidden lg:order-2'>
                     <ul className='flex flex-row items-center w-full justify-between mx-10'>
                         <li>
