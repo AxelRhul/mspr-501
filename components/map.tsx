@@ -54,8 +54,8 @@ const Map = () => {
 
   return (
     <div className="flex items-center justify-center">
-      <div className="mx-auto" style={{ height: '800px', width: '95vw' }}>
-        <MapContainer center={position || [0, 0]} zoom={13} style={{ height: '100%', width: '100%' }} className="rounded-3xl">
+      <div className="mx-auto" style={{ height: '100%', width: '95vw' }}>
+        <MapContainer center={position || [0, 0]} zoom={13} style={{ height: '85vh', width: '100%' }} className="rounded-3xl">
           <TileLayer
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'

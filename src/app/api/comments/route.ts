@@ -1,10 +1,8 @@
 import prisma from "@/prisma/prisma";
 import {NextResponse} from "next/server";
 
-
 export async function POST(req: Request) {
     const formData = await req.formData()
-
 
     const newComment = await prisma.comment.create({
         data: {

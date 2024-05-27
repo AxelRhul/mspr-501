@@ -1,39 +1,25 @@
-"use client"
+import FormCommentaire from "@/components/formCommentaire";
+import { ErrorBoundary } from "next/dist/client/components/error-boundary";
+import Error from "../error";
 
-import { FormEvent, useEffect, useState } from "react";
+export default async function ShowPlants({ params }: { params: { id: string } }) {
 
-export default function ShowPlants({ params }: { params: { id: string } }) {
-    const [plant, setPlant] = useState(null);
+    const response = await fetch(`${process.env.DOMAINE_URL}/api/plants/${params.id}`, {
+        method: "GET",
+    });
 
-    useEffect(() => {
-        fetch(`/api/plants/${params.id}`)
-            .then(response => response.json())
-            .then(data => setPlant(data))
-            .catch(error => console.error('Error:', error));
-    }, [params.id]);
 
-    if (!plant) {
-        return <div>Loading...</div>;
+    if (!response.ok) {
+        return "une erreur est survenue"
     }
 
-    async function handleSubmit(event: FormEvent<HTMLFormElement>) {
-        event.preventDefault();
-        const formData = new FormData(event.currentTarget);
-
-        const fetchResponse = await fetch('/api/comments',
-            {
-                method: 'POST',
-                body: formData,
-            })
-
-        window.location.reload();
-    }
+    const plant = await response.json();
 
     return (
         <>
-            <div className="bg-[#80CC28] w-full h-screen">
+            <div className="bg-[#80CC28] w-full h-screen relative">
                 {plant.images.map((image) => (
-                    <img className="absolute w-72 left-44 top-[4.5rem] rounded-2xl z-10" key={image.id} src={image.url} alt={plant.name} />
+                    <img className="absolute w-72 translate-y-1/2 rounded-2xl z-10" key={image.id} src={image.url} alt={plant.name} />
                 ))}
                 <div className="bg-[#FCFCFC] h-full relative top-56 rounded-t-3xl space-y-4">
                     <div className="absolute top-40 left-0 w-full space-y-2">
@@ -72,6 +58,7 @@ export default function ShowPlants({ params }: { params: { id: string } }) {
                             <hr className="w-full border-2 border-[#80CC28] rounded-full" />
                         </div>
                     </div>
+                    
                     <div className="absolute left-32 top-[470px]">
                         <h3 className="flex justify-start text-xl text-[#80CC28] font-semibold">Commentaires</h3>
                         <ul>
@@ -98,14 +85,9 @@ export default function ShowPlants({ params }: { params: { id: string } }) {
                         </ul>
                     </div>
                     <hr className="absolute left-32 top-[580px] border border-[#80CC28] w-96" />
-                    <form className="absolute left-32 top-[600px] w-96" onSubmit={handleSubmit}>
-                        <div className="flex flex-col items-start justify-center space-y-2">
-                            <input className="border-2 border-[#80CC28] w-full rounded-lg py-2 px-2" type="text" name="name" placeholder="Votre nom" required={true} />
-                            <input className="border-2 border-[#80CC28] w-full rounded-lg py-2 px-2" type="text" name="comment" placeholder="Votre Commentaire" required={true} />
-                            <input type="hidden" name="plantId" value={plant.id} />
-                            <button className="bg-[#80CC28] py-2 px-2 w-full rounded-xl text-[#FCFCFC]" type="submit">Submit</button>
-                        </div>
-                    </form>
+                    <ErrorBoundary errorComponent={Error}>
+                        <FormCommentaire id={plant.id} />
+                    </ErrorBoundary>
                 </div>
             </div>
         </>

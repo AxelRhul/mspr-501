@@ -39,7 +39,6 @@ export default function Page() {
 
     return (
         <>
-            <Header />
             <form onSubmit={onSubmit} encType="multipart/form-data" className='flex flex-col'>
                 <Webcam
                     audio={false}
