@@ -10,7 +10,7 @@ export default async function LoginPage() {
                     <div className='flex flex-col lg:flex-row justify-evenly'>
                         <div>
                             <h1 className='text-4xl md:text-6xl font-bold'>Connexion</h1>
-                            <div className=' bg-white md:w-10/12 lg:w-full mx-auto lg:mx-8 my-10'>
+                            <div className=' bg-white md:w-10/12 lg:w-full mx-auto px-10 lg:px-0 lg:mx-8 my-10'>
                                 <Suspense fallback={<>Loading...</>}>
                                     <LoginForm />
                                 </Suspense>
