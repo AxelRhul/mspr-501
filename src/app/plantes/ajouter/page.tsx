@@ -44,7 +44,7 @@ export default function Page() {
                     audio={false}
                     ref={webcamRef}
                     screenshotFormat="image/png"
-                    className='mb-4 max-h-screen'
+                    className='mb-4 flex items-center mx-10'
                 />
                 <div className='flex flex-col items-center justify-center'>
                     <div className='flex items-center justify-between mx-auto my-4 space-x-4'>
