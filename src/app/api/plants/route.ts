@@ -2,13 +2,15 @@ import {NextResponse} from "next/server";
 import fs from 'fs';
 import path from 'path';
 import { v4 as uuidv4 } from 'uuid';
+import { PrismaClient } from '@prisma/client';
 
-import prisma from '@/prisma/prisma';
+export const prisma = new PrismaClient();
 
 export async function GET(req: Request) {
     const plants = await prisma.plant.findMany({
         include: {
             images: true,
+            user: true,
         },
     });
     return NextResponse.json(plants);
@@ -17,14 +19,23 @@ export async function GET(req: Request) {
 export async function POST(req: Request) {
     const formData = await req.formData()
     const files = formData.getAll('images');
-    console.log(files)
+
+    const user = await prisma.user.findUnique({
+        where: {
+            email: formData.get('user-email'),
+        },
+    });
 
     const images = [];
 
     const newPlant = await prisma.plant.create({
         data: {
             name: formData.get('plant-name'),
-            userName: formData.get('name'),
+            user: {
+                connect: {
+                    id: user.id,
+                },
+            }
         },
     });
 

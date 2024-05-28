@@ -1,5 +1,5 @@
 "use client"
-
+import {signIn} from "next-auth/react"
 // import {auth} from '@/auth';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
@@ -40,9 +40,9 @@ function Header() {
                 <header className='h-12 md:h-14 bg-[#ffffff] rounded-b-3xl flex justify-center lg:hidden lg:order-2'>
                     <ul className='flex flex-row items-center w-full justify-between mx-10'>
                         <li>
-                            <Link href='/login'>
+                            <button onClick={() => signIn()}>
                                 <img src="/img/profil.svg" alt="Profil" />
-                            </Link>
+                            </button>
                         </li>
                         <li>
                             <Link href='/'>
