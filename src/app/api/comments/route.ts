@@ -1,9 +1,8 @@
 import {NextResponse} from "next/server";
 import { PrismaClient } from '@prisma/client';
 
-export const prisma = new PrismaClient();
-
 export async function POST(req: Request) {
+    const prisma = new PrismaClient();
     const formData = await req.formData()
 
     const user = await prisma.user.findUnique({

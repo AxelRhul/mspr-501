@@ -5,6 +5,7 @@ import LoginBtn from "@/components/login-btn";
 
 export default function Home({session}) {
     const [plants, setPlants] = useState([]);
+
     useEffect(() => {
         fetch('/api/plants')
             .then(response => response.json())

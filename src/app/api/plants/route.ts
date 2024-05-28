@@ -4,9 +4,8 @@ import path from 'path';
 import { v4 as uuidv4 } from 'uuid';
 import { PrismaClient } from '@prisma/client';
 
-export const prisma = new PrismaClient();
-
 export async function GET(req: Request) {
+    const prisma = new PrismaClient();
     const plants = await prisma.plant.findMany({
         include: {
             images: true,
