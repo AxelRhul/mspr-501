@@ -3,7 +3,7 @@ import {SessionProvider} from "next-auth/react";
 import { useEffect, useState } from "react";
 import LoginBtn from "@/components/login-btn";
 
-export default function Home({session}) {
+export default function Home() {
     const [plants, setPlants] = useState([]);
 
     useEffect(() => {
@@ -14,9 +14,7 @@ export default function Home({session}) {
 
     return (
         <>
-            <SessionProvider session={session}>
-                <LoginBtn />
-            </SessionProvider>
+            <LoginBtn />
             <div>
                 {plants.map((plant) => (
                     <a key={plant.id} href={`/plantes/${plant.id}`}>
