@@ -1,10 +1,11 @@
 "use client"
-import {SessionProvider} from "next-auth/react";
 import { useEffect, useState } from "react";
 import LoginBtn from "@/components/login-btn";
 
+import Plant from "@/interface/plantInterface";
+
 export default function Home() {
-    const [plants, setPlants] = useState([]);
+    const [plants, setPlants] = useState<Plant[]>([]);
 
     useEffect(() => {
         fetch('/api/plants')

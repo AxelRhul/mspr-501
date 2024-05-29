@@ -1,11 +1,11 @@
 "use client";
-import CommentFormServer from "@/components/commentFormServer";
 import React, { useEffect, useState } from "react";
 import {useSession} from "next-auth/react";
+import User from "@/interface/userInterface";
 
 export default function CommentForm({plantId} : {plantId: string}) {
     const { data: session, status } = useSession();
-    const [user, setUser] = useState();
+    const [user, setUser] = useState<User>();
     if (status === "loading") {
         return <div>Loading...</div>; // or some other loading indicator
     }

@@ -1,6 +1,7 @@
 import React from "react";
 import {DisplayPlant} from "@/components/displayPlant";
 import CommentForm from "@/components/commentForm";
+import Comment from "@/interface/commentInterface";
 
 export default async function ShowPlants({params}: { params: { id: string } },) {
     const plant = await fetch(`${process.env.BASE_URL}/api/plants/${params.id}`)
@@ -13,7 +14,7 @@ export default async function ShowPlants({params}: { params: { id: string } },) 
         <>
             <DisplayPlant plant={plant}/>
             <h3>Commentaires</h3>
-            {comments.map((comment) => {
+            {comments.map((comment: Comment) => {
                 const date = new Date(comment.createdAt);
                 const day = String(date.getDate()).padStart(2, '0');
                 const month = String(date.getMonth() + 1).padStart(2, '0'); // January is 0!
