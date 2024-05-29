@@ -1,24 +1,26 @@
 import React, { useEffect, useState } from "react";
 import {useSession} from "next-auth/react";
 
-export default function CommentFormServer({plantId}) {
-    const { data: session, status } = useSession()
-    let userEmail;
+export default async function CommentFormServer({plantId} : {plantId: string}) {
+    const { data: session, status } = useSession();
 
     if (status === "loading") {
         return <div>Loading...</div>; // or some other loading indicator
     }
+    let userId = "";
 
-    if (session) {
-        userEmail = session.user.email;
+    if (session && session.user && session.user.email) {
+        const response = await fetch(`/api/users/${session.user.email}`);
+        const data = await response.json();
+        userId = data.id;
     }
 
-    async function handleSubmit(event) {
+    async function handleSubmit(event : React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
 
         formData.append('plant-id', plantId);
-        formData.append('user-email', userEmail);
+        formData.append('user-id', userId);
 
         const fetchResponse = await fetch('/api/comments',
             {
