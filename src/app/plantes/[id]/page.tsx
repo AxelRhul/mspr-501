@@ -1,18 +1,57 @@
-import React from "react";
+"use client"
 import {DisplayPlant} from "@/components/displayPlant";
 import CommentForm from "@/components/commentForm";
 import Comment from "@/interface/commentInterface";
+import Plant from "@/interface/plantInterface";
+import React, { useEffect, useState } from "react";
+import { BASE_URL } from "@/constants";
+import {useSession} from "next-auth/react";
+import User from "@/interface/userInterface";
+import PhotoTaker from "@/components/photoTaker";
 
-export default async function ShowPlants({params}: { params: { id: string } },) {
-    const plant = await fetch(`${process.env.BASE_URL}/api/plants/${params.id}`)
-        .then(response => response.json())
+export default function ShowPlants({params}: { params: { id: string } },) { 
+    const [plant, setPlant] = useState<Plant>();
 
-    const comments = await fetch(`${process.env.BASE_URL}/api/comments/${params.id}`)
-        .then(response => response.json())
+    useEffect(() => {
+        fetch(`${BASE_URL}/api/plants/${params.id}`)
+            .then(response => response.json())
+            .then(data => setPlant(data));
+    }, []);
+    const [comments, setComments] = useState<Comment[]>([]);
+
+    useEffect(() => {
+        fetch(`${BASE_URL}/api/comments/${params.id}`)
+            .then(response => response.json())
+            .then(data => setComments(data));
+    }, []);  
+
+    const { data: session, status } = useSession();
+
+    const [user, setUser] = useState<User>();
+    let userId = "";
+
+    const fetchUser = async () => {
+        if (session && session.user && session.user.email) {
+            const response = await fetch('/api/user/'+session.user.email);
+            const data = await response.json();
+            setUser(data);
+        }
+    }
+
+    fetchUser();
+
+    if (user) {
+        userId = user.id
+    }
 
     return (
         <>
-            <DisplayPlant plant={plant}/>
+            {plant && <DisplayPlant plant={plant}/>}
+            {userId === plant?.userId && (
+                <>
+                <PhotoTaker plantId={plant?.id} />
+                </>
+            )}
             <h3>Commentaires</h3>
             {comments.map((comment: Comment) => {
                 const date = new Date(comment.createdAt);
@@ -33,7 +72,7 @@ export default async function ShowPlants({params}: { params: { id: string } },) 
                 )
             }
             )}
-            <CommentForm plantId={plant.id}/>
+            {plant && <CommentForm plantId={plant.id}/>}
         </>
     )
 }
