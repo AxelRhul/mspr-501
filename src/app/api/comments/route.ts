@@ -1,9 +1,8 @@
 import {NextResponse} from "next/server";
-import { PrismaClient } from '@prisma/client';
-import { error } from "console";
+
+import { prisma } from "@/constants";
 
 export async function POST(req: Request) {
-    const prisma = new PrismaClient();
     const formData = await req.formData()
 
     const plant = await prisma.plant.findUnique({
