@@ -19,6 +19,8 @@ export async function POST(req: Request) {
     const formData = await req.formData()
     const files = formData.getAll('images');
 
+    const prisma = new PrismaClient();
+
     const user = await prisma.user.findUnique({
         where: {
             email: formData.get('user-email'),
