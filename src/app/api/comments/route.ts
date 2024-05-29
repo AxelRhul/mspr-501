@@ -11,6 +11,10 @@ export async function POST(req: Request) {
             id: String(formData.get('plant-id')),
         },
     });
+
+    if(!plant) {
+        return NextResponse.error();
+    }
     
     const newComment = await prisma.comment.create({
         data: {

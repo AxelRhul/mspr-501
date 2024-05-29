@@ -1,8 +1,9 @@
 'use client';
 
 import React, {useEffect, useState} from "react";
+import Plant from "@/interface/plantInterface";
 
-export function DisplayPlant({plant}) {
+export function DisplayPlant({plant} : {plant: Plant}) {
     return (
         <>
             <h2>{plant.name}</h2>

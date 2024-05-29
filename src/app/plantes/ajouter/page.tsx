@@ -4,18 +4,18 @@ import {FormEvent, useEffect, useRef} from 'react'
 import React, { useState } from "react";
 import Webcam from "react-webcam";
 import {getSession} from "next-auth/react";
+import Session from '@/interface/sessionInterface';
 export default function Page() {
     const [isLoading, setIsLoading] = useState(true);
-    const webcamRef = useRef(null);
+    const webcamRef = useRef<Webcam | null>(null);
     const [photo, setPhoto] = useState("");
     async function isSession() {
         const session = await getSession();
         if (!session) {
             window.location.href = "/api/auth/signin";
         }
-        console.log(session.user.email);
         setIsLoading(false);
-        sessionStorage.setItem('user-email', session.user.email);
+        sessionStorage.setItem('user-email', String(session?.user?.email));
     }
 
     useEffect(() => {
@@ -29,8 +29,9 @@ export default function Page() {
     }
 
     const capture = () => {
+        if(webcamRef.current === null) return;
         const imageSrc = webcamRef.current.getScreenshot();
-        setPhoto(imageSrc);
+        setPhoto(String(imageSrc));
     };
 
     async function onSubmit(event: FormEvent<HTMLFormElement>) {
@@ -45,7 +46,7 @@ export default function Page() {
             formData.append('images', file);
         }
 
-        formData.append('user-email', sessionStorage.getItem('user-email'));
+        formData.append('user-email', String(sessionStorage.getItem('user-email')));
 
         const fetchResponse = await fetch('/api/plants',
             {

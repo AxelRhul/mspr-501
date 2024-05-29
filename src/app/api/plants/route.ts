@@ -23,15 +23,19 @@ export async function POST(req: Request) {
 
     const user = await prisma.user.findUnique({
         where: {
-            email: formData.get('user-email'),
+            email: String(formData.get('user-email')),
         },
     });
+
+    if (!user) {
+        return NextResponse.json({message: "User not found"}, {status: 404});
+    }
 
     const images = [];
 
     const newPlant = await prisma.plant.create({
         data: {
-            name: formData.get('plant-name'),
+            name: String(formData.get('plant-name')),
             user: {
                 connect: {
                     id: user.id,
@@ -41,7 +45,7 @@ export async function POST(req: Request) {
     });
 
     for (const file of files) {
-        if(file.type !== "application/octet-stream") {
+        if(file instanceof File && file.type !== "application/octet-stream") {
             let filename = file.name;
             if(filename === undefined || filename === null || filename === "") {
                 filename = "default.jpg";
