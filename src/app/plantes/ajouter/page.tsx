@@ -4,7 +4,6 @@ import {FormEvent, useEffect, useRef} from 'react'
 import React, { useState } from "react";
 import Webcam from "react-webcam";
 import {getSession} from "next-auth/react";
-import Session from '@/interface/sessionInterface';
 export default function Page() {
     const [isLoading, setIsLoading] = useState(true);
     const webcamRef = useRef<Webcam | null>(null);
@@ -67,10 +66,13 @@ export default function Page() {
                     ref={webcamRef}
                     screenshotFormat="image/png"
                 />
+                <br></br>
+                {photo && <img src={photo} alt="The taken photo"/>}
+                <br></br>
+                <button type="button" onClick={capture}>Capture photo</button>
+                <br></br>
                 <button type="submit">Submit</button>
             </form>
-            <button onClick={capture}>Capture photo</button>
-            {photo && <img src={photo} alt="The taken photo"/>}
         </>
     )
 }

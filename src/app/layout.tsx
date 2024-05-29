@@ -19,9 +19,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+
       <body className={`${inter.className} bg-[#f9f9f9] max-w-full h-screen`}>
+      <Header />
         <AuthContext>
-          <Header />
           {children}
           <Footer />
         </AuthContext>

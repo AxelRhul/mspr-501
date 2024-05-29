@@ -23,7 +23,6 @@ export default function CommentForm({plantId} : {plantId: string}) {
 
     if (user) {
         userId = user.id
-        console.log(user);
     }
 
 

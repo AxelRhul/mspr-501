@@ -1,9 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { PrismaClient } from '@prisma/client';
+
+import { prisma } from "@/constants";
 
 export async function POST(req: NextRequest, { params }: { params: { id: string } }) {
-
-  const prisma = new PrismaClient();
 
   const formData = await req.formData();
 
@@ -23,5 +22,4 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
   })
 
   return NextResponse.json(comment, { status: 201 })
-
 }
