@@ -6,20 +6,13 @@ import User from "@/interface/userInterface";
 export default function CommentForm({plantId} : {plantId: string}) {
     const { data: session, status } = useSession();
     const [user, setUser] = useState<User>();
-    if (status === "loading") {
-        return <div>Loading...</div>; // or some other loading indicator
-    }
     let userId = "";
 
-    const fetchUser = async () => {
-        if (session && session.user && session.user.email) {
-            const response = await fetch('/api/user/'+session.user.email);
-            const data = await response.json();
-            setUser(data);
-        }
-    }
-
-    fetchUser();
+    useEffect(() => {
+            fetch('/api/user/'+session?.user?.email)
+                .then(response => response.json())
+                .then(data => setUser(data));
+        }, [session]);
 
     if (user) {
         userId = user.id
