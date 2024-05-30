@@ -1,0 +1,28 @@
+name: CI/CD
+
+on:
+  push:
+    branches:
+      - main  # Or your main branch name
+
+jobs:
+  deploy:
+    needs: build-and-push 
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy to VPS
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          port: ${{ secrets.PORT }}
+          script: |
+            cd /root/websites/mspr-501/
+            git pull
+            docker stop mspr-501
+            docker rm mspr-501
+            docker build -t mspr-501 .
+            docker run --name mspr-501 -d -p 3000:443 mspr-501
+
