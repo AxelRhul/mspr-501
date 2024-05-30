@@ -36,7 +36,7 @@ function Header() {
 
     return (
         <>
-            <div className=' sticky top-0'>
+            <div className='mb-4'>
                 <header className='h-12 md:h-14 bg-[#ffffff] rounded-b-3xl flex justify-center lg:hidden lg:order-2'>
                     <ul className='flex flex-row items-center w-full justify-between mx-10'>
                         <li>
@@ -68,7 +68,7 @@ function Header() {
                                 </Link>
                             </li>
                             <li className='font-bold'>
-                                <Link href='/map'>
+                                <Link href='/'>
                                     Carte
                                 </Link>
                             </li>
@@ -78,7 +78,7 @@ function Header() {
                                 </Link>
                             </li>
                             <li className=''>
-                                <Link href='/login'>
+                                <Link href='login'>
                                     <img src="/img/profil.svg" alt="Profil" />
                                 </Link>
                             </li>
@@ -100,7 +100,7 @@ function Header() {
                     </li>
                     <li>
                         <div className='bg-[#ffffff] rounded-full p-2.5 md:p-3.5'>
-                            <Link href='/plantes/ajouter'>
+                            <Link href='plantes/ajouter'>
                                 <img src="/img/camera.svg" alt="Camera" />
                             </Link>
                         </div>
