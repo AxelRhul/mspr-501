@@ -23,5 +23,5 @@ jobs:
             docker stop mspr-501
             docker rm mspr-501
             docker build -t mspr-501 .
-            docker run --name mspr-501 -d -p 3000:443 mspr-501
+            docker run --name mspr-501 -d -p 212.132.121.24:3000:3000 mspr-501
 

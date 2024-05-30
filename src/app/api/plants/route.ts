@@ -20,7 +20,7 @@ export async function POST(req: Request) {
 
     const formData = await req.formData()
 
-    const files = formData.getAll('images');
+    const files = formData.getAll('images') as File[];
 
     const user = await prisma.user.findUnique({
         where: {
@@ -47,7 +47,7 @@ export async function POST(req: Request) {
 
     for (const file of files) {
 
-        if(file instanceof File && file.type !== "application/octet-stream") {
+        if(file && file.type !== "application/octet-stream") {
 
             let filename = file.name;
 
