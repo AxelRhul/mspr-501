@@ -63,7 +63,7 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
             where: { id: params.id },
             data: {
                 images: {
-                    connect: images.map((image) => ({ id: image.id })),
+                    connect: images.map((image : {id: string}) => ({ id: image.id })),
                 },
             },
         });

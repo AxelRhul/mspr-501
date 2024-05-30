@@ -30,15 +30,13 @@ export default function ShowPlants({params}: { params: { id: string } },) {
     const [user, setUser] = useState<User>();
     let userId = "";
 
-    const fetchUser = async () => {
-        if (session && session.user && session.user.email) {
-            const response = await fetch('/api/user/'+session.user.email);
-            const data = await response.json();
-            setUser(data);
-        }
-    }
-
-    fetchUser();
+    useEffect(() => {
+        console.log("test")
+        fetch('/api/user/'+session?.user?.email)
+            .then(response => response.json())
+            .then(data => setUser(data));
+        
+    }, [session]); // Depend on 'session' so it runs whenever 'session' changes
 
     if (user) {
         userId = user.id
@@ -72,7 +70,7 @@ export default function ShowPlants({params}: { params: { id: string } },) {
                 )
             }
             )}
-            {plant && <CommentForm plantId={plant.id}/>}
+            <CommentForm plantId={String(plant?.id)} />
         </>
     )
 }

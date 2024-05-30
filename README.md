@@ -49,7 +49,7 @@ Create a `.env` file in the root of the project with the following content:
 
 ```env
 DATABASE_URL="file:./dev.sqlite"
-AUTH_SECRET="your-auth-secret"
+NEXTAUTH_SECRET="your-auth-secret"
 ```
 
 This project uses Prisma to connect to a database. You can use the following commands to setup the database:
