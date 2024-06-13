@@ -9,13 +9,13 @@ import { useSession } from "next-auth/react";
 import User from "@/interface/userInterface";
 import PhotoTaker from "@/components/photoTaker";
 
-export default function ShowPlants({ params }: { params: { id: string } },) {
+export default function ShowPlants({ params }: { params: { id: string } }) {
     const [plant, setPlant] = useState<Plant>();
 
     useEffect(() => {
-        fetch(`${BASE_URL}/api/comments/${params.id}`)
+        fetch(`${BASE_URL}/api/plants/${params.id}`)
             .then(response => response.json())
-            .then(data => setComments(data));
+            .then(data => setPlant(data));
     }, []);
 
     const [comments, setComments] = useState<Comment[]>([]);
