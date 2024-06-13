@@ -12,9 +12,14 @@ const config: Config = {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
-        "login":"url('/img/background.png')"
+        "messagerie":"url('/img/background.png')"
       },
     },
+    colors: {
+      "vert": "#80CC28",
+      "vertFoncé": "#5C8F37",
+      "white":"#FFFF",
+    }
   },
   plugins: [],
 };

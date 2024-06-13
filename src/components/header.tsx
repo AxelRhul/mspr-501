@@ -1,14 +1,17 @@
 "use client"
-
 // import {auth} from '@/auth';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
+import LoginBtn from './login-btn';
+import { useSession, signIn, signOut } from "next-auth/react"
+
 // import {logoutAction} from '@/src/actions/logoutAction';
 
 function Header() {
     // const session = await auth();
     // const user = session?.user;
     const [isVisible, setIsVisible] = useState(true);
+
 
     useEffect(() => {
         let lastScrollTop = 0;
@@ -40,9 +43,7 @@ function Header() {
                 <header className='h-12 md:h-14 bg-[#ffffff] rounded-b-3xl flex justify-center lg:hidden lg:order-2'>
                     <ul className='flex flex-row items-center w-full justify-between mx-10'>
                         <li>
-                            <Link href='/login'>
-                                <img src="/img/profil.svg" alt="Profil" />
-                            </Link>
+                            <LoginBtn />
                         </li>
                         <li>
                             <Link href='/'>
@@ -73,14 +74,12 @@ function Header() {
                                 </Link>
                             </li>
                             <li className='font-bold'>
-                                <Link href='/'>
+                                <Link href='/messagerie'>
                                     Messagerie
                                 </Link>
                             </li>
                             <li className=''>
-                                <Link href='login'>
-                                    <img src="/img/profil.svg" alt="Profil" />
-                                </Link>
+                                <LoginBtn />
                             </li>
                         </div>
                     </ul>
@@ -106,7 +105,7 @@ function Header() {
                         </div>
                     </li>
                     <li>
-                        <Link href='/' className=''>
+                        <Link href='/messagerie' className=''>
                             <img src="/img/messagerie.svg" alt="Messagerie" />
                         </Link>
                     </li>
