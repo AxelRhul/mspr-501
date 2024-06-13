@@ -2,11 +2,10 @@ import { NextRequest, NextResponse } from "next/server";
 import fs from 'fs';
 import path from 'path';
 import { v4 as uuidv4 } from 'uuid';
-import { PrismaClient } from '@prisma/client';
+import { prisma } from "@/constants";
 
 export async function POST(req: NextRequest, { params }: { params: { id: string } }) {
 
-    const prisma = new PrismaClient();
     const formData = await req.formData();
 
     const files = formData.getAll('images');

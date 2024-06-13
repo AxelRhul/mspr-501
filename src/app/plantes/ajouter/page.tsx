@@ -1,17 +1,36 @@
 "use client"
 
-import Header from '@/components/header';
-import { FormEvent, useRef } from 'react'
+import {FormEvent, useEffect, useRef} from 'react'
 import React, { useState } from "react";
 import Webcam from "react-webcam";
-
+import {getSession} from "next-auth/react";
 export default function Page() {
-    const webcamRef = useRef(null);
+    const [isLoading, setIsLoading] = useState(true);
+    const webcamRef = useRef<Webcam | null>(null);
     const [photo, setPhoto] = useState("");
+    async function isSession() {
+        const session = await getSession();
+        if (!session) {
+            window.location.href = "/api/auth/signin";
+        }
+        setIsLoading(false);
+        sessionStorage.setItem('user-email', String(session?.user?.email));
+    }
+
+    useEffect(() => {
+        isSession();
+    }, []);
+
+    // Rest of your component
+
+    if (isLoading) {
+        return <div>Loading...</div>;
+    }
 
     const capture = () => {
+        if(webcamRef.current === null) return;
         const imageSrc = webcamRef.current.getScreenshot();
-        setPhoto(imageSrc);
+        setPhoto(String(imageSrc));
     };
 
     async function onSubmit(event: FormEvent<HTMLFormElement>) {
@@ -21,12 +40,12 @@ export default function Page() {
         if (photo !== "") {
             const response = await fetch(photo);
             const blob = await response.blob();
-            const file = new File([blob], "photo.png", { type: "image/png" });
+            const file = new File([blob], "photo.png", {type: "image/png"});
 
             formData.append('images', file);
         }
 
-        console.log(formData.getAll('images'))
+        formData.append('user-email', String(sessionStorage.getItem('user-email')));
 
         const fetchResponse = await fetch('/api/plants',
             {
@@ -39,29 +58,21 @@ export default function Page() {
 
     return (
         <>
-            <form onSubmit={onSubmit} encType="multipart/form-data" className='flex flex-col'>
+            <form onSubmit={onSubmit} encType="multipart/form-data">
+                <input type="text" name="plant-name" placeholder="Nom de la plante" required={true}/>
+                <input type="file" name="images" multiple/>
                 <Webcam
                     audio={false}
                     ref={webcamRef}
                     screenshotFormat="image/png"
-                    className='mb-4 flex items-center mx-10'
                 />
-                <div className='flex flex-col items-center justify-center'>
-                    <div className='flex items-center justify-between mx-auto my-4 space-x-4'>
-                        <input className='border-2 border-[#80CC28] rounded-lg p-2' type="text" name="name" placeholder="Votre nom" required={true} />
-                        <input className='border-2 border-[#80CC28] rounded-lg p-2' type="text" name="plant-name" placeholder="Nom de la plante" required={true} />
-                    </div>
-                    <button className='group flex flex-row items-center border-2 border-[#80CC28] rounded-lg p-2 mx-auto space-x-3 my-4 hover:bg-[#80CC28] hover:text-[#FCFCFC] hover:p-0' onClick={capture}>
-                        <img className='group-hover:bg-[#FCFCFC] group-hover:p-2 group-hover:rounded-l-md' src="/img/camera.svg" alt="Appareil Photo" />
-                        <span className='group-hover:pr-2'>Prendre une photo</span>
-                    </button>
-                    <div className='flex items-center justify-between mx-auto my-4 space-x-4'>
-                        <input className='w-full' type="file" name="images" multiple />
-                        <button className='bg-[#80CC28] hover:bg-[#6cb821] px-2 py-1 rounded-md text-[#FCFCFC]' type="submit">Submit</button>
-                    </div>
-                </div>
+                <br></br>
+                {photo && <img src={photo} alt="The taken photo"/>}
+                <br></br>
+                <button type="button" onClick={capture}>Capture photo</button>
+                <br></br>
+                <button type="submit">Submit</button>
             </form>
-            {photo && <img src={photo} alt="The taken photo" />}
         </>
     )
 }
