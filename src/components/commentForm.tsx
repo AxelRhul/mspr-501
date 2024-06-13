@@ -36,10 +36,11 @@ export default function CommentForm({plantId} : {plantId: string}) {
     }
 
     return (
-        <form onSubmit={handleSubmit}>
-            <label htmlFor="content">Commentaire</label>
-            <textarea id="content" name="content" required/>
-            <button type="submit">Envoyer</button>
-        </form>
+        <form className="w-full" onSubmit={handleSubmit}>
+            <div className="flex flex-col items-start justify-center space-y-2 md:space-y-4 mb-4">
+                <textarea className="border-2 border-[#80CC28] w-full rounded-lg p-2" id="content" name="content" required />
+                <button className="bg-[#80CC28] p-2 w-full rounded-xl text-[#FCFCFC] text-base md:text-lg font-semibold" type="submit">Envoyer</button>
+            </div>
+        </form >
     )
 }
