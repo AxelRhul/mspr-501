@@ -1,7 +1,6 @@
 "use client"
 import { useEffect, useState } from "react";
 import LoginBtn from "@/components/login-btn";
-
 import Plant from "@/interface/plantInterface";
 
 export default function Home() {
@@ -15,7 +14,6 @@ export default function Home() {
 
     return (
         <>
-            <LoginBtn />
             <div>
             {plants.map((plant) => (
     <a key={plant.id} href={`/plantes/${plant.id}`}>
