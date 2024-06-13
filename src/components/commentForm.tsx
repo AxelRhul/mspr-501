@@ -1,25 +1,25 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import {useSession} from "next-auth/react";
+import { useSession } from "next-auth/react";
 import User from "@/interface/userInterface";
 
-export default function CommentForm({plantId} : {plantId: string}) {
+export default function CommentForm({ plantId }: { plantId: string }) {
     const { data: session, status } = useSession();
     const [user, setUser] = useState<User>();
     let userId = "";
 
     useEffect(() => {
-            fetch('/api/user/'+session?.user?.email)
-                .then(response => response.json())
-                .then(data => setUser(data));
-        }, [session]);
+        fetch('/api/user/' + session?.user?.email)
+            .then(response => response.json())
+            .then(data => setUser(data));
+    }, [session]);
 
     if (user) {
         userId = user.id
     }
 
 
-    async function handleSubmit(event : React.FormEvent<HTMLFormElement>) {
+    async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
 

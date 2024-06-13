@@ -18,13 +18,13 @@ export default function ShowPlants({ params }: { params: { id: string } },) {
             .then(data => setComments(data));
     }, []);
 
-	const [comments, setComments] = useState<Comment[]>([]);
+    const [comments, setComments] = useState<Comment[]>([]);
 
-	useEffect(() => {
-		fetch(`${BASE_URL}/api/comments/${params.id}`)
-			.then((response) => response.json())
-			.then((data) => setComments(data));
-	}, []);
+    useEffect(() => {
+        fetch(`${BASE_URL}/api/comments/${params.id}`)
+            .then((response) => response.json())
+            .then((data) => setComments(data));
+    }, []);
 
     const { data: session, status } = useSession();
 
