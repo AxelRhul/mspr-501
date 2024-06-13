@@ -6,14 +6,20 @@ export default function LoginBtn() {
     if (session) {
         return (
             <>
-                <button onClick={() => signOut()}>Sign out</button>
+                <button onClick={() => signOut()} className="items-center text-xs flex flex-col">
+                    <img src="img/profil-log.svg" alt="icon de profil connecté" title="Se déconnecter" />
+                    Se déconnecter
+                </button>
             </>
         )
     }
     return (
         <>
-            Not signed in <br />
-            <button onClick={() => signIn()}>Sign in</button>
+            <button onClick={() => signIn()} className="items-center text-xs flex flex-col">
+                <img src="img/profil.svg" alt="icon pour se connecter à son profil" title="Se connecter" />
+                Se connecter <br />
+
+            </button>
         </>
     )
 }

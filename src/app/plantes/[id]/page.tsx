@@ -13,22 +13,18 @@ export default function ShowPlants({ params }: { params: { id: string } },) {
     const [plant, setPlant] = useState<Plant>();
 
     useEffect(() => {
-        fetch(`${BASE_URL}/api/plants/${params.id}`)
-            .then(response => response.json())
-            .then(data => setPlant(data));
-    }, []);
-    const [comments, setComments] = useState<Comment[]>([]);
-
-    useEffect(() => {
         fetch(`${BASE_URL}/api/comments/${params.id}`)
             .then(response => response.json())
             .then(data => setComments(data));
     }, []);
 
-    const { data: session, status } = useSession();
+	const [comments, setComments] = useState<Comment[]>([]);
 
-    const [user, setUser] = useState<User>();
-    let userId = "";
+	useEffect(() => {
+		fetch(`${BASE_URL}/api/comments/${params.id}`)
+			.then((response) => response.json())
+			.then((data) => setComments(data));
+	}, []);
 
     useEffect(() => {
         console.log("test")
@@ -38,9 +34,11 @@ export default function ShowPlants({ params }: { params: { id: string } },) {
 
     }, [session]); // Depend on 'session' so it runs whenever 'session' changes
 
-    if (user) {
-        userId = user.id
-    }
+	const { data: session, status } = useSession();
+
+
+	const [user, setUser] = useState<User>();
+	let userId = '';
 
     return (
         <>
