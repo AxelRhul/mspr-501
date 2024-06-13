@@ -8,9 +8,13 @@ import { BASE_URL } from "@/constants";
 import { useSession } from "next-auth/react";
 import User from "@/interface/userInterface";
 import PhotoTaker from "@/components/photoTaker";
+import ModalHistorique from "@/components/modalHistorique";
+import ModalGardien from "@/components/modalGardien";
 
 export default function ShowPlants({ params }: { params: { id: string } }) {
     const [plant, setPlant] = useState<Plant>();
+    const [isModalOpenHistorique, setIsModalOpenHistorique] = useState(false);
+    const [isModalOpenGardien, setIsModalOpenGardien] = useState(false);
 
     useEffect(() => {
         fetch(`${BASE_URL}/api/plants/${params.id}`)
@@ -55,7 +59,20 @@ export default function ShowPlants({ params }: { params: { id: string } }) {
                             <p className="flex items-center justify-center text-[#676A65] text-lg lg:text-xl underline underline-offset-4 decoration-[#80CC28] ">Dernière photo prise le :</p>
                             <p className="flex items-center justify-center text-[#676A65] text-lg lg:text-xl">XX/XX/XX</p>
                         </div>
-                        <a href="/" className="flex items-center justify-center text-[#5C8F37]  font-semibold text-base lg:text-lg">Voir l'historique de la plante</a>
+                        <div className="w-80 lg:w-[352px] xl:w-96 flex flex-row items-center justify-between">
+                            <button
+                                className="flex items-center justify-center text-[#5C8F37]  font-semibold text-base lg:text-lg"
+                                onClick={() => setIsModalOpenHistorique(true)}
+                            >
+                                Voir l'historique
+                            </button>
+                            <button
+                                className="flex items-center justify-center text-[#5C8F37]  font-semibold text-base lg:text-lg"
+                                onClick={() => setIsModalOpenGardien(true)}
+                            >
+                                Garder la plante
+                            </button>
+                        </div>
                         {/* {userId === plant?.userId && (
                             <>
                                 <PhotoTaker plantId={plant?.id} />
@@ -121,6 +138,22 @@ export default function ShowPlants({ params }: { params: { id: string } }) {
                     </div>
                 </div>
             </div>
+            <ModalHistorique isOpen={isModalOpenHistorique} onClose={() => setIsModalOpenHistorique(false)}>
+                <h2 className="text-lg xl:text-2xl font-bold mb-4">Historique de <span className="text-vert">{plant && plant.name}</span></h2>
+                <div className="grid grid-cols-2">
+                    {plant && plant.images.map((image) => (
+                        <img className="object-cover rounded-xl w-28 h-28 lg:w-40 lg:h-40 xl:w-52 xl:h-52" key={image.id} src={image.url} alt={plant.name} />
+                    ))}
+                </div>
+            </ModalHistorique>
+            <ModalGardien isOpen={isModalOpenGardien} onClose={() => setIsModalOpenGardien(false)}>
+                <h2 className="text-lg xl:text-2xl font-bold mb-4">Vous souhaitez garder <span className="text-vert">{plant && plant.name}</span> ?</h2>
+                <p className="text-base font-medium pb-4">Pour ce faire c'est très simple, il vous suffit de vous présenter dans l'encardé ci-dessous.</p>
+                <div className="flex flex-col items-center justify-center w-full space-y-2">
+                    <textarea name="gardiennage" id="gardiennage" className="w-full border-2 border-vert rounded-xl"></textarea>
+                    <button name="gardiennage" type="submit" className="w-full bg-vert rounded-xl py-1.5 text-white">Envoyer</button>
+                </div>
+            </ModalGardien>
         </>
     )
 }

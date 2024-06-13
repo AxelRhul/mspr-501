@@ -19,6 +19,7 @@ const config: Config = {
       "vert": "#80CC28",
       "vertFoncé": "#5C8F37",
       "white":"#FFFF",
+      "black": "#000",
     }
   },
   plugins: [],
