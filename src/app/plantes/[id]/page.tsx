@@ -26,6 +26,11 @@ export default function ShowPlants({ params }: { params: { id: string } },) {
 			.then((data) => setComments(data));
 	}, []);
 
+    const { data: session, status } = useSession();
+
+    const [user, setUser] = useState<User>();
+    let userId = '';
+
     useEffect(() => {
         console.log("test")
         fetch('/api/user/' + session?.user?.email)
@@ -34,11 +39,9 @@ export default function ShowPlants({ params }: { params: { id: string } },) {
 
     }, [session]); // Depend on 'session' so it runs whenever 'session' changes
 
-	const { data: session, status } = useSession();
-
-
-	const [user, setUser] = useState<User>();
-	let userId = '';
+    if (user) {
+        userId = user.id;
+    }
 
     return (
         <>
