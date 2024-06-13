@@ -1,4 +1,4 @@
-import { ModalProps } from "@/interface/modalPorps";
+import { ModalProps } from "@/interface/modalInterface";
 import React, { FC } from "react";
 
 const ModalHistorique: FC<ModalProps> = ({ isOpen, onClose, children }) => {

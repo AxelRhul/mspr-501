@@ -1,4 +1,4 @@
-import { ModalProps } from "@/interface/modalPorps";
+import { ModalProps } from "@/interface/modalInterface";
 import { FC } from "react";
 
 const ModalGardien: FC<ModalProps> = ({ isOpen, onClose, children }) => {
