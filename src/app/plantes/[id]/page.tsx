@@ -52,7 +52,7 @@ export default function ShowPlants({ params }: { params: { id: string } },) {
                             <p className="flex items-center justify-center text-[#676A65] text-lg lg:text-xl underline underline-offset-4 decoration-[#80CC28] ">Dernière photo prise le :</p>
                             <p className="flex items-center justify-center text-[#676A65] text-lg lg:text-xl">XX/XX/XX</p>
                         </div>
-                        <a href="" className="flex items-center justify-center text-[#5C8F37] font-semibold text-base lg:text-lg">Voir l'historique de la plante</a>
+                        <a href="/" className="flex items-center justify-center text-[#5C8F37] font-semibold text-base lg:text-lg">Voir l'historique de la plante</a>
                         {/* {userId === plant?.userId && (
                             <>
                                 <PhotoTaker plantId={plant?.id} />
