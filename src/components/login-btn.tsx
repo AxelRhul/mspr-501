@@ -7,7 +7,7 @@ export default function LoginBtn() {
         return (
             <>
                 <button onClick={() => signOut()} className="items-center text-xs flex flex-col">
-                    <img src="img/profil-log.svg" alt="icon de profil connecté" title="Se déconnecter" />
+                    <img src="/img/profil-log.svg" alt="icon de profil connecté" title="Se déconnecter" />
                     Se déconnecter
                 </button>
             </>
@@ -16,9 +16,8 @@ export default function LoginBtn() {
     return (
         <>
             <button onClick={() => signIn()} className="items-center text-xs flex flex-col">
-                <img src="img/profil.svg" alt="icon pour se connecter à son profil" title="Se connecter" />
+                <img src="/img/profil.svg" alt="icon pour se connecter à son profil" title="Se connecter" />
                 Se connecter <br />
-
             </button>
         </>
     )
