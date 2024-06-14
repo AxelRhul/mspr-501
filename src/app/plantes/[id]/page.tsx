@@ -148,7 +148,7 @@ export default function ShowPlants({ params }: { params: { id: string } }) {
             </ModalHistorique>
             <ModalGardien isOpen={isModalOpenGardien} onClose={() => setIsModalOpenGardien(false)}>
                 <h2 className="text-lg xl:text-2xl font-bold mb-4">Vous souhaitez garder <span className="text-vert">{plant && plant.name}</span> ?</h2>
-                <p className="text-base font-medium pb-4">Pour ce faire c'est très simple, il vous suffit de vous présenter dans l&apos;encardé ci-dessous.</p>
+                <p className="text-base font-medium pb-4">Pour ce faire c&apos;est très simple, il vous suffit de vous présenter dans l&apos;encardé ci-dessous.</p>
                 <div className="flex flex-col items-center justify-center w-full space-y-2">
                     <textarea name="gardiennage" id="gardiennage" className="w-full border-2 border-vert rounded-xl"></textarea>
                     <button name="gardiennage" type="submit" className="w-full bg-vert rounded-xl py-1.5 text-white">Envoyer</button>
