@@ -64,7 +64,7 @@ export default function ShowPlants({ params }: { params: { id: string } }) {
                                 className="flex items-center justify-center text-[#5C8F37]  font-semibold text-base lg:text-lg"
                                 onClick={() => setIsModalOpenHistorique(true)}
                             >
-                                Voir l'historique
+                                Voir l&apos;historique
                             </button>
                             <button
                                 className="flex items-center justify-center text-[#5C8F37]  font-semibold text-base lg:text-lg"
