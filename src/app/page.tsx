@@ -64,8 +64,8 @@ export default function Home() {
                 </div>
                 <div className="grid grid-cols-2 gap-4 lg:grid-cols-3 xl:grid-cols-4 justify-items-center w-full">
                     {plants.map((plant) => (
-                        <div className="flex flex-col">
-                            <a key={plant.id} href={`/plantes/${plant.id}`}>
+                        <div key={plant.id} className="flex flex-col">
+                            <a href={`/plantes/${plant.id}`}>
                                 <div className="flex flex-col items-center bg-[#F5F5F5] border-2 border-[#80CC28] rounded-lg shadow shadow-[#80CC28] w-full h-full space-x-4">
                                     {plant.images.map((image) => (
                                         <img className="object-cover rounded-[7px] w-full h-full" key={image.id} src={image.url} alt={plant.name} />
