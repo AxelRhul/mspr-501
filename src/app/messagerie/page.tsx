@@ -2,7 +2,7 @@ import Link from "next/link"
 
 export default function Page() {
     return (
-        <div className="h-screen w-full bg-messagerie bg-cover">
+        <div className="h-screen w-full bg-messagerie bg-cover pt-16">
             <div className="bg-white w-full flex justify-between px-2">
                 <Link href='/'>
                     <img src="/img/back.svg" alt="flèche retour" />

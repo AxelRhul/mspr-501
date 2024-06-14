@@ -58,7 +58,7 @@ export default function Page() {
 
     return (
         <>
-            <form onSubmit={onSubmit} encType="multipart/form-data">
+            <form onSubmit={onSubmit} encType="multipart/form-data" className='pt-16'>
                 <input type="text" name="plant-name" placeholder="Nom de la plante" required={true}/>
                 <input type="file" name="images" multiple/>
                 <Webcam
