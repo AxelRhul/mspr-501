@@ -2,15 +2,24 @@
 import { useEffect, useState } from "react";
 import Plant from "../interface/plantInterface";
 import LoginBtn from "../components/login-btn";
+import { User } from "@prisma/client";
 
 export default function Home() {
     const [plants, setPlants] = useState<Plant[]>([]);
+    const [users, setUsers]= useState<User[]>([]);
 
     useEffect(() => {
         fetch('/api/plants')
             .then(response => response.json())
             .then(data => setPlants(data));
     }, []);
+
+    useEffect(()=> {
+        fetch('/api/users')
+        .then(response => response.json())
+        .then(data => SVGAElement)
+    }
+    )
 
     return (
         <>
