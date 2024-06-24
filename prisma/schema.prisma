@@ -3,23 +3,23 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "mysql"
   url      = env("DATABASE_URL")
 }
 
 model Account {
-  id                String  @id @default(cuid())
-  userId            String
-  type              String
-  provider          String
-  providerAccountId String
-  refresh_token     String?
-  access_token      String?
+  id                String   @id @default(cuid()) @db.VarChar(255)
+  userId            String   @db.VarChar(255)
+  type              String   @db.VarChar(255)
+  provider          String   @db.VarChar(255)
+  providerAccountId String   @db.VarChar(255)
+  refresh_token     String?  @db.Text
+  access_token      String?  @db.Text
   expires_at        Int?
-  token_type        String?
-  scope             String?
-  id_token          String?
-  session_state     String?
+  token_type        String?  @db.VarChar(255)
+  scope             String?  @db.Text
+  id_token          String?  @db.Text
+  session_state     String?  @db.Text
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -27,54 +27,82 @@ model Account {
 }
 
 model Session {
-  id           String   @id @default(cuid())
-  sessionToken String   @unique
-  userId       String
+  id           String   @id @default(cuid()) @db.VarChar(255)
+  sessionToken String   @unique @db.VarChar(255)
+  userId       String   @db.VarChar(255)
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model User {
-  id            String    @id @default(cuid())
-  name          String?
-  email         String?   @unique
-  emailVerified DateTime?
-  image         String?
-  accounts      Account[]
-  sessions      Session[]
-  plants        Plant[]
-  comments      Comment[]
+  id                String    @id @default(cuid()) @db.VarChar(255)
+  name              String?   @db.VarChar(255)
+  email             String?   @unique @db.VarChar(255)
+  emailVerified     DateTime?
+  image             String?   @db.Text
+  accounts          Account[]
+  sessions          Session[]
+  plants            Plant[]
+  comments          Comment[]
+  sentMessages      Message[] @relation("SentMessages")
+  receivedMessages  Message[] @relation("ReceivedMessages")
+  conversations     Conversation[] @relation("ConversationParticipants")
 }
 
 model VerificationToken {
-  identifier String
-  token      String   @unique
+  identifier String   @db.VarChar(255)
+  token      String   @unique @db.VarChar(255)
   expires    DateTime
 
   @@unique([identifier, token])
 }
+
 model Plant {
-  id       String    @id @default(cuid())
-  name     String
-  images   Image[]
-  comments Comment[]
-  user     User      @relation(fields: [userId], references: [id])
-  userId   String
+  id            String    @id @default(cuid()) @db.VarChar(255)
+  name          String    @db.VarChar(255)
+  images        Image[]
+  comments      Comment[]
+  user          User      @relation(fields: [userId], references: [id])
+  userId        String    @db.VarChar(255)
+  conversations Conversation[] 
+  messages      Message[] 
 }
 
 model Image {
-  id      String @id @default(cuid())
-  url     String
-  plantId String
+  id      String @id @default(cuid()) @db.VarChar(255)
+  url     String @db.Text
+  plantId String @db.VarChar(255)
   plant   Plant  @relation(fields: [plantId], references: [id])
 }
 
 model Comment {
-  id        String   @id @default(cuid())
-  content   String
-  plantId   String   @map("plant_id")
+  id        String   @id @default(cuid()) @db.VarChar(255)
+  content   String   @db.Text
+  plantId   String   @map("plant_id") @db.VarChar(255)
   plant     Plant    @relation(fields: [plantId], references: [id])
   createdAt DateTime @default(now())
-  userId    String
+  userId    String   @db.VarChar(255)
   user      User     @relation(fields: [userId], references: [id])
+}
+
+model Conversation {
+  id            String   @id @default(cuid()) @db.VarChar(255)
+  plantId       String   @db.VarChar(255)
+  plant         Plant    @relation(fields: [plantId], references: [id])
+  participants  User[]   @relation("ConversationParticipants")
+  messages      Message[]
+}
+
+model Message {
+  id             String   @id @default(cuid()) @db.VarChar(255)
+  content        String   @db.Text
+  senderId       String   @db.VarChar(255)
+  receiverId     String   @db.VarChar(255)
+  conversationId String   @db.VarChar(255)
+  plantId        String   @db.VarChar(255)
+  plant          Plant    @relation(fields: [plantId], references: [id])
+  conversation   Conversation @relation(fields: [conversationId], references: [id])
+  sender         User     @relation("SentMessages", fields: [senderId], references: [id])
+  receiver       User     @relation("ReceivedMessages", fields: [receiverId], references: [id])
+  createdAt      DateTime @default(now())
 }
