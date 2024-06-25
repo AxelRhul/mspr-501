@@ -29,5 +29,5 @@ jobs:
 
             docker-compose -f docker-compose.prod.yml up -d
 
-            docker exec mspr-501-mspr-501-1 npx prisma migrate dev
+            docker exec mspr-501_mspr-501_1  npx prisma migrate dev
           
