@@ -8,6 +8,10 @@ WORKDIR /app
 
 # Install dependencies based on the preferred package manager
 COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
+
+
+
+
 RUN \
   if [ -f yarn.lock ]; then yarn --frozen-lockfile; \
   elif [ -f package-lock.json ]; then npm ci; \
@@ -29,7 +33,7 @@ COPY . .
 
 COPY prisma ./prisma
 
-RUN npx prisma migrate dev
+RUN npx prisma generate
 
 RUN \
   if [ -f yarn.lock ]; then yarn run build; \
@@ -62,7 +66,9 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
 # Copy the prisma schema and the generated client
 COPY --from=builder --chown=nextjs:nodejs /app/prisma ./prisma
-# RUN npx prisma migrate dev
+
+# Copy the package.json and the package-lock.json
+COPY --from=builder --chown=nextjs:nodejs /app/package.json /app/package-lock.json ./
 
 USER nextjs
 
