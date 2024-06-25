@@ -28,4 +28,6 @@ jobs:
             docker network create mspr-501_network 
 
             docker-compose -f docker-compose.prod.yml up -d
+
+            docker exec mspr-501-mspr-501-1 npx prisma migrate dev
           
