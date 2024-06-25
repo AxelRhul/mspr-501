@@ -3,6 +3,24 @@ import fs from 'fs';
 import path from 'path';
 import { v4 as uuidv4 } from 'uuid';
 import { prisma } from "@/constants";
+import * as fse from 'fs-extra';
+const cloudinary = require('cloudinary');
+
+cloudinary.v2.config({
+  cloud_name: 'dy1bfclg5',
+  api_key: '769527748627414',
+  api_secret: 'pJZKb5rfDByGJolFSQDNUcwIRe8',
+  secure: true,
+});
+
+async function copyDirectory(source: string, destination: string): Promise<void> {
+    try {
+        await fse.copy(source, destination);
+        console.log('Directory copied successfully');
+    } catch (error) {
+        console.error('Error copying directory:', error);
+    }
+}
 
 export async function GET(req: Request) {
 
@@ -59,7 +77,21 @@ export async function POST(req: Request) {
 
             const dirPath = path.join(process.cwd(), 'public', 'uploads', newPlant.id);
 
-            fs.mkdir(dirPath, { recursive: true }, (error) => {});
+            fs.mkdir(dirPath, { recursive: true }, (error) => {
+                if (error) {
+                    console.error('Directory creation error:', error);
+                } else {
+                    console.log('Directory created successfully');
+                    // Set directory permissions to drwxr-xr-x
+                    fs.chmod(dirPath, 0o777, (err) => {
+                        if (err) {
+                            console.error('Error setting directory permissions:', err);
+                        } else {
+                            console.log('Directory permissions set to drwxr-xr-x');
+                        }
+                    });
+                }
+            });
 
             const filePath = path.join(process.cwd(), 'public', 'uploads',newPlant.id, filename);
 
@@ -72,13 +104,23 @@ export async function POST(req: Request) {
                     console.error('File writing error:', err);
                 } else {
                     console.log('File written successfully');
-
+                    fs.chmod(filePath, 0o777, (chmodErr) => {
+                        if (chmodErr) {
+                            console.error('Error setting file permissions:', chmodErr);
+                        } else {
+                            console.log('File permissions set to -rw-r--r--');
+                        }
+                    });
                 }
             })
 
+            const result = await cloudinary.uploader.upload(filePath, {
+                public_id: filename,
+            });
+
             const image = await prisma.image.create({
                 data: {
-                    url: `/uploads/${newPlant.id}/${filename}`,
+                    url: result.url,
                     plant: {
                         connect: {
                             id: newPlant.id,
@@ -98,6 +140,8 @@ export async function POST(req: Request) {
                 connect: images.map((image) => ({ id: image.id })),
             },
         },});
+    const sourceDirPath = path.join(process.cwd(), 'public', 'uploads', newPlant.id);
+    const targetDirPath = path.join(process.cwd(), 'standalone', 'public');
 
     return NextResponse.json({message: "Files processed"});
 }
