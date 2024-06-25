@@ -21,7 +21,7 @@ jobs:
             cd /root/websites/mspr-501/
             git pull
 
-            docker-compose down --remove-orphans --volumes
+            docker-compose -f docker-compose.prod.yml down --remove-orphans --volumes
 
             docker network remove mspr-501_network
 
