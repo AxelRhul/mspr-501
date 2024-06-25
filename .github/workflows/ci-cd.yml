@@ -20,8 +20,14 @@ jobs:
           script: |
             cd /root/websites/mspr-501/
             git pull
-            docker stop mspr-501
-            docker rm mspr-501
-            docker build -t mspr-501 .
-            docker run --name mspr-501 -d -p 212.132.121.24:3000:3000 mspr-501
 
+            docker-compose down --remove-orphans --volumes
+
+            docker network remove mspr-501_network
+
+            docker network create mspr-501_network 
+
+            docker-compose -f docker-compose.prod.yml up -d
+
+            docker exec mspr-501-mspr-501-1 npx prisma migrate dev
+          
