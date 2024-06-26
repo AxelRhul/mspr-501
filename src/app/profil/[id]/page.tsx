@@ -10,7 +10,8 @@ import Link from "next/link";
 
 export default function Profil() {
     const router = useRouter();
-    const { id } = router.query; // Récupère l'userId depuis l'URL
+    //const { id } = router.query; // Récupère l'userId depuis l'URL
+    const id = 1
     const [user, setUser] = useState<User>();
     const [plants, setPlants] = useState<Plant[]>([]);
 
@@ -38,9 +39,9 @@ export default function Profil() {
                         <img className="object-cover rounded-3xl -mt-40 w-80 h-80 lg:w-[352px] lg:h-[352px] xl:w-96 xl:h-96" src={user?.image} alt={user?.name} />
                         <Logout />
                         <div className="w-80 lg:w-[352px] text-center xl:w-96">
-                            <p className="flex items-center justify-center text-[#80CC28] lg:text-xl text-lg">{user?.role}</p>
+                            <p className="flex items-center justify-center text-[#80CC28] lg:text-xl text-lg"></p>
                             <h2 className="w-80 lg:w-[352px] xl:w-96 flex items-center justify-center text-[#212729] text-2xl lg:text-4xl font-bold">{user?.name}</h2>
-                            <p>{user?.bio}</p>
+                            <p></p>
                         </div>
                         
                         <div className="text-center">

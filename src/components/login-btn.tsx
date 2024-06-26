@@ -22,7 +22,7 @@ export default function LoginBtn() {
         return (
             <>
                 <Link href="/profil"  className="items-center text-xs flex flex-col">
-                    <img src={user && user.image} alt="icon de profil connecté" title="Profil" className="w-10 rounded-full" />
+                    <img src={user?.image ?? '/img/default-profile.svg'} alt="icon de profil connecté" title="Profil" className="w-10 rounded-full" />
                     
                 </Link>
             </>
